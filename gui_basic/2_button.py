@@ -20,7 +20,7 @@ btn5.pack()
 
 
 # 이미지 통해서 버튼 만들기
-photo = PhotoImage(file="gui_basic/img.png") # 이미지 불러옴
+photo = PhotoImage(file="img.png") # 이미지 불러옴
 btn6 = Button(root, image=photo)  
 btn6.pack()
 
