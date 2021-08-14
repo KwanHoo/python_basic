@@ -46,8 +46,12 @@ def merge_image():
     #print(list_file.get(0, END)) # 모든 파일 목록을 가지고 오기
     images = [Image.open(x) for x in list_file.get(0, END)]
     # size -> size[0] : width, size[1] : height
+    # 방법1)
     widths = [x.size[0] for x in images]
     heights = [x.size[1] for  x in images]
+    # 방법2) unzip라이브러리이용
+    # widths, heights = zip(*(x.size for  x in images))
+
 
     # print("width : ", widths)
     # print("hight :" , heights)
@@ -59,9 +63,20 @@ def merge_image():
     # 스케치북
     result_img = Image.new("RGB", (max_width, total_height), (255,255,255)) # 배경 흰색
     y_offset = 0   # x는 그대로 인데 y 좌표 기준으로 하나씩 늘려가면서 붙이는 작업을 위한 변수 / y 위치
-    for img in images:
+    # 1) 기본
+    # for img in images:
+    #     result_img.paste(img, (0,y_offset))
+    #     y_offset += img.size[1] # 해당 이미지 높이(y) 더해줌
+
+    # 2) 프로그레스 바 추가
+    for idx, img in enumerate(images): # enumerate 이용하여 index 반환
         result_img.paste(img, (0,y_offset))
         y_offset += img.size[1] # 해당 이미지 높이(y) 더해줌
+
+        progress = (idx + 1) / len(images) * 100 # 실제 퍼센트 정보를 계산
+        p_var.set(progress)
+        progress_bar.update()
+
 
     dest_path = os.path.join(txt_dest_path.get(), "merge_photo_R.jpg")  # 저장경로 설정
     result_img.save(dest_path)  # 이미지 저장
@@ -88,8 +103,6 @@ def start():
     ##########
     # 이미지 통합 작업
     merge_image()
-
-
 
 
 # 파일 프레임 (파일 추가, 선택 삭제)
