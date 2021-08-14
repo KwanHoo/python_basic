@@ -62,7 +62,7 @@ def merge_image():
         elif img_space == "보통":
             img_space = 60
         elif img_space == "넓게":
-            img_sapce = 90
+            img_space = 90
         else:  # "없음"
             img_space = 0
 
